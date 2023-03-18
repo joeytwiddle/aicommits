@@ -39,7 +39,7 @@ export default () => (async () => {
 		messages = await generateCommitMessage(
 			config.OPENAI_KEY,
 			config.locale,
-			staged!.diff,
+			staged.diff,
 			config.generate,
 		);
 	} finally {
