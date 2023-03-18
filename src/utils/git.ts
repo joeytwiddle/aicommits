@@ -30,7 +30,7 @@ export const getStagedDiff = async () => {
 
 	const { stdout: diff } = await execa(
 		'git',
-		[...diffCached, ...excludeFromDiff],
+		[...diffCached, '--word-diff=porcelain', ...excludeFromDiff],
 	);
 
 	return {
