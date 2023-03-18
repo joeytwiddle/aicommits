@@ -43,7 +43,7 @@ export default () => (async () => {
 			config.OPENAI_KEY,
 			config.model,
 			config.locale,
-			staged!.diff,
+			staged.diff,
 			config.generate,
 			config['max-length'],
 			config.type,
