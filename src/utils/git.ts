@@ -45,6 +45,8 @@ export const getStagedDiff = async (excludeFiles?: string[]) => {
 		'git',
 		[
 			...diffCached,
+			'--word-diff=porcelain',
+			'--unified=15',
 			...filesToExclude,
 			...(
 				excludeFiles
