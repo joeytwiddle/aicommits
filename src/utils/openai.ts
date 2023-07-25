@@ -101,6 +101,10 @@ export const generateCommitMessage = async (
 	completions: number,
 ) => {
 	const prompt = getPrompt(locale, diff);
+	// console.log('-----------------------');
+	// console.log('prompt:', prompt);
+	// console.log('-----------------------');
+	require('fs').writeFileSync('/tmp/aicommits_prompt.txt', prompt);
 
 	/**
 	 * text-davinci-003 has a token limit of 4000
