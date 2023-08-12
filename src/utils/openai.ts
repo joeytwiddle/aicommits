@@ -9,6 +9,7 @@ import createHttpsProxyAgent from 'https-proxy-agent';
 import { KnownError } from './error.js';
 import type { CommitType } from './config.js';
 import { generatePrompt } from './prompt.js';
+import { writeFileSync } from 'fs';
 
 const httpsPost = async (
 	hostname: string,
@@ -69,6 +70,9 @@ const createChatCompletion = async (
 	timeout: number,
 	proxy?: string,
 ) => {
+	// eslint-disable-next-line node/global-require, @typescript-eslint/no-var-requires
+	writeFileSync('/tmp/aicommits_latest_prompt.txt', json.messages[0].content);
+
 	const { response, data } = await httpsPost(
 		'api.openai.com',
 		'/v1/chat/completions',
