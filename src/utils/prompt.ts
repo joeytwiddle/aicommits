@@ -2,7 +2,10 @@ import { execSync } from 'child_process';
 import type { CommitType } from './config.js';
 
 const commitTypeFormats: Record<CommitType, string> = {
-	'': '<commit message>',
+	// '': '<commit message>',
+	// If we haven't specified plain style, then we ask the AI to guess which style to use
+	// We could also call this commit type 'guess', or we could call the default commit type 'plain'
+	'': '<commit message>, or if it fits with previous commits, then use the conventional style: <type>(<optional scope>): <commit message>',
 	conventional: '<type>(<optional scope>): <commit message>',
 };
 const specifyCommitFormat = (type: CommitType) => `The output response must be in format:\n${commitTypeFormats[type]}`;
@@ -54,7 +57,7 @@ export const generatePrompt = (
 	`Message language: ${locale}`,
 	`Commit message must be a maximum of ${maxLength} characters.`,
 	'Exclude anything unnecessary such as translation. Your entire response will be passed directly into git commit.',
-	commitTypes[type],
+	commitTypes[type || 'conventional'],
 	specifyCommitFormat(type),
 	recentCommitMessages(),
 ].filter(Boolean).join('\n');
