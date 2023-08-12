@@ -1,3 +1,4 @@
+import { execSync } from 'child_process';
 import type { CommitType } from './config.js';
 
 const commitTypeFormats: Record<CommitType, string> = {
@@ -5,6 +6,16 @@ const commitTypeFormats: Record<CommitType, string> = {
 	conventional: '<type>(<optional scope>): <commit message>',
 };
 const specifyCommitFormat = (type: CommitType) => `The output response must be in format:\n${commitTypeFormats[type]}`;
+
+function getRecentCommitMessages(): string[] {
+	const command = 'git log --pretty=format:%s -n 25';
+	const result = execSync(command).toString();
+	return result.split('\n').filter(Boolean);
+}
+
+function recentCommitMessages() {
+	return `Here are some recent commit messages, which you can use as a guideline:\n${getRecentCommitMessages().join('\n')}`;
+}
 
 const commitTypes: Record<CommitType, string> = {
 	'': '',
@@ -45,4 +56,5 @@ export const generatePrompt = (
 	'Exclude anything unnecessary such as translation. Your entire response will be passed directly into git commit.',
 	commitTypes[type],
 	specifyCommitFormat(type),
+	recentCommitMessages(),
 ].filter(Boolean).join('\n');
