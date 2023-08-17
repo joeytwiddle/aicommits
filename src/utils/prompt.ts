@@ -54,11 +54,11 @@ export const generatePrompt = (
 	type: CommitType,
 ) => [
 	'Generate a concise git commit message written in present tense for the following code diff with the given specifications below:',
+	'Ideally, the message should not describe what code changed, but why the developer wanted to change it, and why they did it this way. But keep it AS BRIEF AS POSSIBLE!',
 	`Message language: ${locale}`,
 	`Commit message must be a maximum of ${maxLength} characters.`,
 	'Exclude anything unnecessary such as translation. Your entire response will be passed directly into git commit.',
-	'If possible, instead of simply describing what code changed, try to infer and describe why the developer wanted to changed it.',
-	commitTypes[type || 'conventional'],
+	type ? commitTypes[type] : `If you think the past commits use the same format, then ${commitTypes.conventional}`,
 	specifyCommitFormat(type),
 	recentCommitMessages(),
 ].filter(Boolean).join('\n');
